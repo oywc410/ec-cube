@@ -37,7 +37,7 @@ class EntityUtil
      */
     public static function isEmpty($entity)
     {
-        @trigger_error('The '.__METHOD__.' method is deprecated.', E_USER_DEPRECATED);
+        //@trigger_error('The '.__METHOD__.' method is deprecated.', E_USER_DEPRECATED);
         if ($entity instanceof Proxy) {
             try {
                 $entity->__load();
@@ -65,7 +65,7 @@ class EntityUtil
      */
     public static function isNotEmpty($entity)
     {
-        @trigger_error('The '.__METHOD__.' method is deprecated.', E_USER_DEPRECATED);
+        //@trigger_error('The '.__METHOD__.' method is deprecated.', E_USER_DEPRECATED);
 
         return !self::isEmpty($entity);
     }

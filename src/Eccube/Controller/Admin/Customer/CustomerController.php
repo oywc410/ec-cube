@@ -298,18 +298,21 @@ class CustomerController extends AbstractController
             // データ行の出力.
             $this->csvExportService->setExportQueryBuilder($qb);
             $this->csvExportService->exportData(function ($entity, $csvService) use ($request) {
+
                 $Csvs = $csvService->getCsvs();
 
-                /** @var $Customer \Eccube\Entity\Customer */
+                /** @var \Eccube\Entity\Customer $Customer */
                 $Customer = $entity;
 
                 $ExportCsvRow = new \Eccube\Entity\ExportCsvRow();
 
                 // CSV出力項目と合致するデータを取得.
                 foreach ($Csvs as $Csv) {
+
                     // 会員データを検索.
                     $ExportCsvRow->setData($csvService->getData($Csv, $Customer));
 
+                    /*
                     $event = new EventArgs(
                         [
                             'csvService' => $csvService,
@@ -320,6 +323,7 @@ class CustomerController extends AbstractController
                         $request
                     );
                     $this->eventDispatcher->dispatch(EccubeEvents::ADMIN_CUSTOMER_CSV_EXPORT, $event);
+                    */
 
                     $ExportCsvRow->pushData();
                 }
@@ -327,6 +331,8 @@ class CustomerController extends AbstractController
                 //$row[] = number_format(memory_get_usage(true));
                 // 出力.
                 $csvService->fputcsv($ExportCsvRow->getRow());
+
+                echo '利用メモリ:' . memory_get_usage() . "\n";
             });
         });
 
@@ -337,7 +343,7 @@ class CustomerController extends AbstractController
 
         $response->send();
 
-        log_info('会員CSVファイル名', [$filename]);
+        //log_info('会員CSVファイル名', [$filename]);
 
         return $response;
     }
